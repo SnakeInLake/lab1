@@ -231,9 +231,6 @@ void runLinkedList(int argc, char* argv[]) {
     } else if (command == "PRINT") {
         cout << "Список: ";
         list.print();
-    } else if (command == "PRINTREVERSE") {
-        cout << "Список в обратном порядке: ";
-        list.printReverse();
     } else {
         cout << "Ошибка: неизвестная команда " << command << endl;
     }
