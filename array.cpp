@@ -2,31 +2,32 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <string>
 
 using namespace std;
 
 void DynamicArray::init(int initialCapacity) {
-    data = new int[initialCapacity];
+    data = new string[initialCapacity];
     size = 0;
     capacity = initialCapacity;
 }
 
 void DynamicArray::resize(int newCapacity) {
-    int* newData = new int[newCapacity];
-    memcpy(newData, data, size * sizeof(int));
+    string* newData = new string[newCapacity];
+    memcpy(newData, data, size * sizeof(string));
     delete[] data;
     data = newData;
     capacity = newCapacity;
 }
 
-void DynamicArray::add(int value) {
+void DynamicArray::add(const string& value) {
     if (size == capacity) {
         resize(capacity * 2);
     }
     data[size++] = value;
 }
 
-void DynamicArray::insert(int index, int value) {
+void DynamicArray::insert(int index, const string& value) {
     if (index < 0 || index > size) {
         cout << "Ошибка: индекс вне диапазона" << endl;
         return;
@@ -52,15 +53,15 @@ void DynamicArray::remove(int index) {
     size--;
 }
 
-int DynamicArray::get(int index) {
+string DynamicArray::get(int index) {
     if (index < 0 || index >= size) {
         cout << "Ошибка: индекс вне диапазона" << endl;
-        return -1;
+        return "";
     }
     return data[index];
 }
 
-void DynamicArray::set(int index, int value) {
+void DynamicArray::set(int index, const string& value) {
     if (index < 0 || index >= size) {
         cout << "Ошибка: индекс вне диапазона" << endl;
         return;
@@ -85,7 +86,7 @@ void DynamicArray::destroy() {
 
 void DynamicArray::loadFromFile(const string& fileName) {
     ifstream file(fileName);
-    int value;
+    string value;
     while (file >> value) {
         add(value);
     }
@@ -132,14 +133,13 @@ void runDynamicArray(int argc, char* argv[]) {
     query = (pos != string::npos) ? query.substr(pos + 1) : "";
 
     if (command == "MPUSH") {
-        int value = stoi(query);
-        arr.add(value);
+        arr.add(query);
         arr.saveToFile(fileName);
-        cout << "Значение " << value << " добавлено в конец массива." << endl;
+        cout << "Значение " << query << " добавлено в конец массива." << endl;
     } else if (command == "MINSERT") {
         size_t pos = query.find(' ');
         int index = stoi(query.substr(0, pos));
-        int value = stoi(query.substr(pos + 1));
+        string value = query.substr(pos + 1);
         arr.insert(index, value);
         arr.saveToFile(fileName);
         cout << "Значение " << value << " добавлено по индексу " << index << "." << endl;
@@ -151,7 +151,7 @@ void runDynamicArray(int argc, char* argv[]) {
     } else if (command == "MSET") {
         size_t pos = query.find(' ');
         int index = stoi(query.substr(0, pos));
-        int value = stoi(query.substr(pos + 1));
+        string value = query.substr(pos + 1);
         arr.set(index, value);
         arr.saveToFile(fileName);
         cout << "Элемент по индексу " << index << " заменён на " << value << "." << endl;
