@@ -9,7 +9,7 @@ void Stack::init() {
     top = nullptr;
 }
 
-void Stack::push(int value) {
+void Stack::push(const string& value) { // Изменено на string
     StackNode* newStackNode = new StackNode;
     newStackNode->data = value;
     newStackNode->next = top;
@@ -53,7 +53,7 @@ void Stack::saveToFile(const string& fileName) {
 
 void Stack::loadFromFile(const string& fileName) {
     ifstream fin(fileName);
-    int value;
+    string value; // Изменено на string
     while (fin >> value) {
         push(value);
     }
@@ -88,7 +88,7 @@ void runStack(int argc, char* argv[]) {
         return;
     }
 
-if (query.empty()) {
+    if (query.empty()) {
         cout << "Ошибка: не указан запрос (--query)" << endl;
         return;
     }
@@ -105,13 +105,8 @@ if (query.empty()) {
     }
 
     if (command == "SPUSH") {
-        try {
-            int value = stoi(query);
-            stack.push(value);
-            cout << "Значение " << value << " добавлено в стек." << endl;
-        } catch (const invalid_argument& e) {
-            cout << "Ошибка: некорректное значение для команды SPUSH" << endl;
-        }
+        stack.push(query); // Изменено: не нужно stoi
+        cout << "Значение " << query << " добавлено в стек." << endl;
     } else if (command == "SPOP") {
         stack.pop();
         cout << "Элемент с вершины стека удалён." << endl;

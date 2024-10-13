@@ -3,17 +3,17 @@
 #include <string>
 
 struct DynamicArray {
-    int* data;
+    std::string* data; 
     int size;
     int capacity;
 
     void init(int initialCapacity);
     void resize(int newCapacity);
-    void add(int value);
-    void insert(int index, int value);
+    void add(const std::string& value); 
+    void insert(int index, const std::string& value); 
     void remove(int index);
-    int get(int index);
-    void set(int index, int value);
+    std::string get(int index); 
+    void set(int index, const std::string& value); 
     int length();
     void print();
     void destroy();

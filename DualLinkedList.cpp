@@ -10,7 +10,7 @@ void LinkedList::init() {
     tail = nullptr;
 }
 
-void LinkedList::addToHead(int value) {
+void LinkedList::addToHead(const string& value) {
     ListNode* newListNode = new ListNode{value, nullptr, head};
     if (head != nullptr) {
         head->prev = newListNode;
@@ -21,7 +21,7 @@ void LinkedList::addToHead(int value) {
     }
 }
 
-void LinkedList::addToTail(int value) {
+void LinkedList::addToTail(const string& value) {
     ListNode* newListNode = new ListNode{value, tail, nullptr};
     if (tail != nullptr) {
         tail->next = newListNode;
@@ -64,7 +64,7 @@ void LinkedList::removeFromTail() {
     delete temp;
 }
 
-void LinkedList::removeByValue(int value) {
+void LinkedList::removeByValue(const string& value) {
     if (head == nullptr) {
         cout << "Список пуст." << endl;
         return;
@@ -95,7 +95,7 @@ void LinkedList::removeByValue(int value) {
     delete temp;
 }
 
-bool LinkedList::search(int value) {
+bool LinkedList::search(const string& value) {
     ListNode* temp = head;
     while (temp != nullptr) {
         if (temp->data == value) {
@@ -136,7 +136,7 @@ void LinkedList::saveToFile(const std::string& fileName) {
 
 void LinkedList::loadFromFile(const std::string& fileName) {
     ifstream fin(fileName);
-    int value;
+    string value; // Изменено на string
     while (fin >> value) {
         addToTail(value);
     }
@@ -188,21 +188,11 @@ void runLinkedList(int argc, char* argv[]) {
     }
 
     if (command == "LPUSH") {
-        try {
-            int value = stoi(query);
-            list.addToHead(value);
-            cout << "Значение " << value << " добавлено в голову списка." << endl;
-        } catch (const invalid_argument& e) {
-            cout << "Ошибка: некорректное значение для команды LPUSH" << endl;
-        }
+        list.addToHead(query);
+        cout << "Значение " << query << " добавлено в голову списка." << endl;
     } else if (command == "LAPPEND") {
-        try {
-            int value = stoi(query);
-            list.addToTail(value);
-            cout << "Значение " << value << " добавлено в хвост списка." << endl;
-        } catch (const invalid_argument& e) {
-            cout << "Ошибка: некорректное значение для команды LAPPEND" << endl;
-        }
+        list.addToTail(query);
+        cout << "Значение " << query << " добавлено в хвост списка." << endl;
     } else if (command == "LREMOVEHEAD") {
         list.removeFromHead();
         cout << "Элемент с головы списка удалён." << endl;
@@ -210,23 +200,13 @@ void runLinkedList(int argc, char* argv[]) {
         list.removeFromTail();
         cout << "Элемент с хвоста списка удалён." << endl;
     } else if (command == "LREMOVE") {
-        try {
-            int value = stoi(query);
-            list.removeByValue(value);
-            cout << "Элемент " << value << " удалён из списка." << endl;
-        } catch (const invalid_argument& e) {
-            cout << "Ошибка: некорректное значение для команды LREMOVE" << endl;
-        }
+        list.removeByValue(query);
+        cout << "Элемент " << query << " удалён из списка." << endl;
     } else if (command == "LSEARCH") {
-        try {
-            int value = stoi(query);
-            if (list.search(value)) {
-                cout << "Элемент " << value << " найден в списке." << endl;
-            } else {
-                cout << "Элемент " << value << " не найден в списке." << endl;
-            }
-        } catch (const invalid_argument& e) {
-            cout << "Ошибка: некорректное значение для команды LSEARCH" << endl;
+        if (list.search(query)) {
+            cout << "Элемент " << query << " найден в списке." << endl;
+        } else {
+            cout << "Элемент " << query << " не найден в списке." << endl;
         }
     } else if (command == "PRINT") {
         cout << "Список: ";

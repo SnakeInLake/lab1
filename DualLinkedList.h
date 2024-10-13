@@ -3,7 +3,7 @@
 #include <string>
 
 struct ListNode {
-    int data;
+    std::string data; // Изменено на string
     ListNode* prev;
     ListNode* next;
 };
@@ -13,12 +13,12 @@ struct LinkedList {
     ListNode* tail;
 
     void init();
-    void addToHead(int value);
-    void addToTail(int value);
+    void addToHead(const std::string& value); // Изменено на string
+    void addToTail(const std::string& value); // Изменено на string
     void removeFromHead();
     void removeFromTail();
-    void removeByValue(int value);
-    bool search(int value);
+    void removeByValue(const std::string& value); // Изменено на string
+    bool search(const std::string& value); // Изменено на string
     void print();
     void printReverse();
     void saveToFile(const std::string& fileName);

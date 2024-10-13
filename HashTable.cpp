@@ -6,20 +6,16 @@
 
 using namespace std;
 
-// Структура для хранения пары ключ-значение
 struct HashNode {
     string key;
     string value;
-    HashNode* next;  // Указатель на следующий узел в цепочке
+    HashNode* next;  
 };
 
-// Максимальный размер хеш-таблицы
 const int TABLE_SIZE = 10;
 
-// Хеш-таблица — это массив указателей на узлы
 HashNode* hashTable[TABLE_SIZE];
 
-// Инициализация хеш-таблицы
 void initTable() {
     for (int i = 0; i < TABLE_SIZE; i++) {
         hashTable[i] = nullptr;
@@ -35,7 +31,6 @@ int hashFunction(const string& key) {
     return hash % TABLE_SIZE;
 }
 
-// Добавление элемента в хеш-таблицу
 void insert(const string& key, const string& value) {
     int index = hashFunction(key);
     HashNode* newNode = new HashNode{key, value, nullptr};
@@ -60,7 +55,6 @@ void insert(const string& key, const string& value) {
     }
 }
 
-// Получение значения по ключу
 string get(const string& key) {
     int index = hashFunction(key);
     HashNode* current = hashTable[index];
@@ -74,7 +68,6 @@ string get(const string& key) {
     return "Ключ не найден";
 }
 
-// Удаление элемента по ключу
 void remove(const string& key) {
     int index = hashFunction(key);
     HashNode* current = hashTable[index];
@@ -96,7 +89,6 @@ void remove(const string& key) {
     cout << "Ключ не найден для удаления" << endl;
 }
 
-// Печать всей хеш-таблицы
 void printTable() {
     for (int i = 0; i < TABLE_SIZE; i++) {
         cout << "Индекс " << i << ": ";
@@ -109,7 +101,6 @@ void printTable() {
     }
 }
 
-// Запись хеш-таблицы в файл
 void saveToFile(const string& fileName) {
     ofstream file(fileName);
     if (!file.is_open()) {
@@ -127,7 +118,6 @@ void saveToFile(const string& fileName) {
     file.close();
 }
 
-// Чтение хеш-таблицы из файла
 void loadFromFile(const string& fileName) {
     ifstream file(fileName);
     if (!file.is_open()) {
@@ -142,7 +132,6 @@ void loadFromFile(const string& fileName) {
     file.close();
 }
 
-// Освобождение памяти для всей хеш-таблицы
 void freeTable() {
     for (int i = 0; i < TABLE_SIZE; i++) {
         HashNode* current = hashTable[i];
@@ -161,7 +150,6 @@ void runHashTable(int argc, char* argv[]) {
     string fileName;
     string query;
 
-    // Разбираем параметры командной строки
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "--file") == 0 && i + 1 < argc) {
             fileName = argv[i + 1];
@@ -173,7 +161,6 @@ void runHashTable(int argc, char* argv[]) {
         }
     }
 
-    // Если файл задан, загружаем данные из файла
     if (!fileName.empty()) {
         loadFromFile(fileName);
     }
@@ -183,7 +170,6 @@ void runHashTable(int argc, char* argv[]) {
         return;
     }
 
-    // Обработка команды
     string command;
     size_t pos = query.find(' ');
     if (pos != string::npos) {
@@ -216,11 +202,9 @@ void runHashTable(int argc, char* argv[]) {
         cout << "Ошибка: неизвестная команда " << command << endl;
     }
 
-    // Если файл задан, сохраняем данные в файл
     if (!fileName.empty()) {
         saveToFile(fileName);
     }
 
-    // Освобождаем память
     freeTable();
 }

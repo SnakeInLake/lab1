@@ -4,7 +4,7 @@
 
 
 struct QueueNode {
-    int data;
+    std::string data;
     QueueNode* next;
 };
 
@@ -13,7 +13,7 @@ struct Queue {
     QueueNode* rear;
 
     void init();
-    void enqueue(int value);
+    void enqueue(const std::string& value); 
     void dequeue();
     void print();
     void saveToFile(const std::string& fileName);
