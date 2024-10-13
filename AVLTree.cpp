@@ -6,7 +6,6 @@
 
 using namespace std;
 
-// Структура для узла АВЛ-дерева
 struct Node {
     int key;
     Node* left;
@@ -14,7 +13,6 @@ struct Node {
     int height;
 };
 
-// Вспомогательные функции
 int height(Node* node) {
     return node ? node->height : 0;
 }
@@ -23,7 +21,6 @@ int max(int a, int b) {
     return (a > b) ? a : b;
 }
 
-// Создание нового узла
 Node* createNode(int key) {
     Node* node = new Node();
     node->key = key;
@@ -33,32 +30,26 @@ Node* createNode(int key) {
     return node;
 }
 
-// Правое вращение
 Node* rightRotate(Node* y) {
     Node* x = y->left;
     Node* T2 = x->right;
 
-    // Выполняем вращение
     x->right = y;
     y->left = T2;
 
-    // Обновляем высоты
     y->height = max(height(y->left), height(y->right)) + 1;
     x->height = max(height(x->left), height(x->right)) + 1;
 
     return x;
 }
 
-// Левое вращение
 Node* leftRotate(Node* x) {
     Node* y = x->right;
     Node* T2 = y->left;
 
-    // Выполняем вращение
     y->left = x;
     x->right = T2;
 
-    // Обновляем высоты
     x->height = max(height(x->left), height(x->right)) + 1;
     y->height = max(height(y->left), height(y->right)) + 1;
 
@@ -70,7 +61,6 @@ int getBalance(Node* node) {
     return node ? height(node->left) - height(node->right) : 0;
 }
 
-// Добавление элемента в АВЛ-дерево
 Node* insert(Node* node, int key) {
     if (node == nullptr)
         return createNode(key);
@@ -86,7 +76,6 @@ Node* insert(Node* node, int key) {
 
     int balance = getBalance(node);
 
-    // Балансировка
     if (balance > 1 && key < node->left->key)
         return rightRotate(node);
 
@@ -106,7 +95,6 @@ Node* insert(Node* node, int key) {
     return node;
 }
 
-// Поиск минимального узла
 Node* minValueNode(Node* node) {
     Node* current = node;
     while (current->left != nullptr)
@@ -114,7 +102,6 @@ Node* minValueNode(Node* node) {
     return current;
 }
 
-// Удаление узла
 Node* deleteNode(Node* root, int key) {
     if (root == nullptr)
         return root;
@@ -150,7 +137,6 @@ Node* deleteNode(Node* root, int key) {
 
     int balance = getBalance(root);
 
-    // Балансировка
     if (balance > 1 && getBalance(root->left) >= 0)
         return rightRotate(root);
 
@@ -170,7 +156,6 @@ Node* deleteNode(Node* root, int key) {
     return root;
 }
 
-// Поиск элемента
 bool search(Node* root, int key) {
     if (root == nullptr)
         return false;
@@ -181,7 +166,6 @@ bool search(Node* root, int key) {
     return search(root->right, key);
 }
 
-// Сохранение дерева в файл
 void saveTree(Node* root, ofstream& file) {
     if (root != nullptr) {
         saveTree(root->left, file);
@@ -190,7 +174,6 @@ void saveTree(Node* root, ofstream& file) {
     }
 }
 
-// Печать дерева (для отладки)
 void printTree(Node* root, int space = 0) {
     if (root == nullptr) return;
 
@@ -206,7 +189,6 @@ void printTree(Node* root, int space = 0) {
     printTree(root->left, space);
 }
 
-// Загрузка дерева из файла
 Node* loadTree(ifstream& file) {
     Node* root = nullptr;
     int key;
@@ -225,7 +207,6 @@ void runAVLTree(int argc, char* argv[]) {
     string filename;
     string query;
 
-    // Разбираем параметры командной строки
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "--file") == 0 && i + 1 < argc) {
             filename = argv[i + 1];
@@ -249,7 +230,6 @@ void runAVLTree(int argc, char* argv[]) {
 
     Node* root = nullptr;
 
-    // Загружаем дерево из файла
     ifstream infile(filename);
     if (infile.is_open()) {
         root = loadTree(infile);
@@ -258,7 +238,6 @@ void runAVLTree(int argc, char* argv[]) {
         cout << "Не удалось открыть файл. Начинаем с пустого дерева." << endl;
     }
 
-    // Обработка команды
     string command;
     size_t pos = query.find(' ');
     if (pos != string::npos) {
@@ -268,7 +247,7 @@ void runAVLTree(int argc, char* argv[]) {
         command = query;
     }
 
-    if (command == "INSERT") {
+    if (command == "TINSERT") {
         try {
             int value = stoi(query);
             root = insert(root, value);
@@ -276,7 +255,7 @@ void runAVLTree(int argc, char* argv[]) {
         } catch (const invalid_argument& e) {
             cout << "Ошибка: некорректное значение для команды INSERT" << endl;
         }
-    } else if (command == "SEARCH") {
+    } else if (command == "TSEARCH") {
         try {
             int value = stoi(query);
             if (search(root, value)) {
@@ -290,7 +269,7 @@ void runAVLTree(int argc, char* argv[]) {
     } else if (command == "PRINT") {
         cout << "Дерево:" << endl;
         printTree(root);
-    } else if (command == "DELETE") {
+    } else if (command == "TDEL") {
         try {
             int value = stoi(query);
             root = deleteNode(root, value);
@@ -303,7 +282,6 @@ void runAVLTree(int argc, char* argv[]) {
         return;
     }
 
-    // Сохраняем дерево обратно в файл
     ofstream outfile(filename);
     if (outfile.is_open()) {
         saveTree(root, outfile);

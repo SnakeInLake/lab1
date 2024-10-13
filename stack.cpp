@@ -43,13 +43,26 @@ void Stack::print() {
 
 void Stack::saveToFile(const string& fileName) {
     ofstream fout(fileName);
+    
+    if (!fout.is_open()) {
+        cout << "Не удалось открыть файл для записи." << endl;
+        return;
+    }
+
     StackNode* temp = top;
+    string output = "";
+
+    // Проходим стек и сохраняем элементы в переменную `output`, добавляя каждый элемент сверху вниз
     while (temp != nullptr) {
-        fout << temp->data << endl;
+        output = temp->data + "\n" + output; // добавляем новые элементы сверху
         temp = temp->next;
     }
+
+    // Записываем все накопленные элементы в файл
+    fout << output;
     fout.close();
 }
+
 
 void Stack::loadFromFile(const string& fileName) {
     ifstream fin(fileName);
