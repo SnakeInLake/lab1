@@ -10,7 +10,7 @@ void Queue::init() {
     rear = nullptr;
 }
 
-void Queue::enqueue(int value) {
+void Queue::enqueue(const string& value) { 
     QueueNode* newQueueNode = new QueueNode;
     newQueueNode->data = value;
     newQueueNode->next = nullptr;
@@ -66,7 +66,7 @@ void Queue::saveToFile(const string& fileName) {
 
 void Queue::loadFromFile(const string& fileName) {
     ifstream fin(fileName);
-    int value;
+    string value; 
     while (fin >> value) {
         enqueue(value);
     }
@@ -118,13 +118,8 @@ void runQueue(int argc, char* argv[]) {
     }
 
     if (command == "QPUSH") {
-        try {
-            int value = stoi(query);
-            queue.enqueue(value);
-            cout << "Значение " << value << " добавлено в очередь." << endl;
-        } catch (const invalid_argument& e) {
-            cout << "Ошибка: некорректное значение для команды QPUSH" << endl;
-        }
+        queue.enqueue(query); 
+        cout << "Значение " << query << " добавлено в очередь." << endl;
     } else if (command == "QPOP") {
         queue.dequeue();
         cout << "Элемент из начала очереди удалён." << endl;

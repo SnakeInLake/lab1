@@ -3,7 +3,7 @@
 #include <string>
 
 struct StackNode {
-    int data;
+    std::string data; 
     StackNode* next;
 };
 
@@ -11,7 +11,7 @@ struct Stack {
     StackNode* top;
 
     void init();
-    void push(int value);
+    void push(const std::string& value); 
     void pop();
     void print();
     void saveToFile(const std::string& fileName);

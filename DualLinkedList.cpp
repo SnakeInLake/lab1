@@ -136,7 +136,7 @@ void LinkedList::saveToFile(const std::string& fileName) {
 
 void LinkedList::loadFromFile(const std::string& fileName) {
     ifstream fin(fileName);
-    string value; // Изменено на string
+    string value; 
     while (fin >> value) {
         addToTail(value);
     }

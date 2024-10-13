@@ -9,7 +9,7 @@ void Stack::init() {
     top = nullptr;
 }
 
-void Stack::push(const string& value) { // Изменено на string
+void Stack::push(const string& value) { 
     StackNode* newStackNode = new StackNode;
     newStackNode->data = value;
     newStackNode->next = top;
@@ -53,7 +53,7 @@ void Stack::saveToFile(const string& fileName) {
 
 void Stack::loadFromFile(const string& fileName) {
     ifstream fin(fileName);
-    string value; // Изменено на string
+    string value; 
     while (fin >> value) {
         push(value);
     }
@@ -105,7 +105,7 @@ void runStack(int argc, char* argv[]) {
     }
 
     if (command == "SPUSH") {
-        stack.push(query); // Изменено: не нужно stoi
+        stack.push(query); 
         cout << "Значение " << query << " добавлено в стек." << endl;
     } else if (command == "SPOP") {
         stack.pop();
