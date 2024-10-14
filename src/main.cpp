@@ -4,6 +4,7 @@
 #include "AVLTree.h"
 #include "array.h"
 #include "LinkedList.h"
+#include "DualLinkedList.h"
 #include "queue.h"
 #include "stack.h"
 
@@ -23,6 +24,8 @@ int main(int argc, char* argv[]) {
         runDynamicArray(argc - 1, argv + 1);
     } else if (strcmp(argv[1], "list") == 0) {
         runLinkedList(argc - 1, argv + 1);
+    } else if (strcmp(argv[1], "list") == 0) {
+        runDualLinkedList(argc - 1, argv + 1);
     } else if (strcmp(argv[1], "dlist") == 0) {
         runStack(argc - 1, argv + 1);
     } else if (strcmp(argv[1], "queue") == 0) {
