@@ -160,6 +160,12 @@ void runDynamicArray(int argc, char* argv[]) {
     } else if (command == "PRINT") {
         cout << "Массив: ";
         arr.print();
+    } else if (command == "MGET") {
+    int index = stoi(query);
+    string value = arr.get(index);
+    if (!value.empty()) {
+        cout << "Элемент по индексу " << index << ": " << value << endl;
+    }
     } else {
         cout << "Ошибка: неизвестная команда " << command << endl;
     }
