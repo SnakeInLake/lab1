@@ -5,40 +5,40 @@
 
 using namespace std;
 
-void LinkedList::init() {
+void DualLinkedList::init() {
     head = nullptr;
     tail = nullptr;
 }
 
-void LinkedList::addToHead(const string& value) {
-    ListNode* newListNode = new ListNode{value, nullptr, head};
+void DualLinkedList::addToHead(const string& value) {
+    DualListNode* newDualListNode = new DualListNode{value, nullptr, head};
     if (head != nullptr) {
-        head->prev = newListNode;
+        head->prev = newDualListNode;
     }
-    head = newListNode;
+    head = newDualListNode;
     if (tail == nullptr) {
         tail = head;
     }
 }
 
-void LinkedList::addToTail(const string& value) {
-    ListNode* newListNode = new ListNode{value, tail, nullptr};
+void DualLinkedList::addToTail(const string& value) {
+    DualListNode* newDualListNode = new DualListNode{value, tail, nullptr};
     if (tail != nullptr) {
-        tail->next = newListNode;
+        tail->next = newDualListNode;
     }
-    tail = newListNode;
+    tail = newDualListNode;
     if (head == nullptr) {
         head = tail;
     }
 }
 
-void LinkedList::removeFromHead() {
+void DualLinkedList::removeFromHead() {
     if (head == nullptr) {
         cout << "Список пуст." << endl;
         return;
     }
 
-    ListNode* temp = head;
+    DualListNode* temp = head;
     head = head->next;
     if (head != nullptr) {
         head->prev = nullptr;
@@ -48,13 +48,13 @@ void LinkedList::removeFromHead() {
     delete temp;
 }
 
-void LinkedList::removeFromTail() {
+void DualLinkedList::removeFromTail() {
     if (tail == nullptr) {
         cout << "Список пуст." << endl;
         return;
     }
 
-    ListNode* temp = tail;
+    DualListNode* temp = tail;
     tail = tail->prev;
     if (tail != nullptr) {
         tail->next = nullptr;
@@ -64,13 +64,13 @@ void LinkedList::removeFromTail() {
     delete temp;
 }
 
-void LinkedList::removeByValue(const string& value) {
+void DualLinkedList::removeByValue(const string& value) {
     if (head == nullptr) {
         cout << "Список пуст." << endl;
         return;
     }
 
-    ListNode* temp = head;
+    DualListNode* temp = head;
     while (temp != nullptr && temp->data != value) {
         temp = temp->next;
     }
@@ -95,8 +95,8 @@ void LinkedList::removeByValue(const string& value) {
     delete temp;
 }
 
-bool LinkedList::search(const string& value) {
-    ListNode* temp = head;
+bool DualLinkedList::search(const string& value) {
+    DualListNode* temp = head;
     while (temp != nullptr) {
         if (temp->data == value) {
             return true;
@@ -106,8 +106,8 @@ bool LinkedList::search(const string& value) {
     return false;
 }
 
-void LinkedList::print() {
-    ListNode* temp = head;
+void DualLinkedList::print() {
+    DualListNode* temp = head;
     while (temp != nullptr) {
         cout << temp->data << " ";
         temp = temp->next;
@@ -115,8 +115,8 @@ void LinkedList::print() {
     cout << endl;
 }
 
-void LinkedList::printReverse() {
-    ListNode* temp = tail;
+void DualLinkedList::printReverse() {
+    DualListNode* temp = tail;
     while (temp != nullptr) {
         cout << temp->data << " ";
         temp = temp->prev;
@@ -124,9 +124,9 @@ void LinkedList::printReverse() {
     cout << endl;
 }
 
-void LinkedList::saveToFile(const std::string& fileName) {
+void DualLinkedList::saveToFile(const std::string& fileName) {
     ofstream fout(fileName);
-    ListNode* temp = head;
+    DualListNode* temp = head;
     while (temp != nullptr) {
         fout << temp->data << endl;
         temp = temp->next;
@@ -134,7 +134,7 @@ void LinkedList::saveToFile(const std::string& fileName) {
     fout.close();
 }
 
-void LinkedList::loadFromFile(const std::string& fileName) {
+void DualLinkedList::loadFromFile(const std::string& fileName) {
     ifstream fin(fileName);
     string value; 
     while (fin >> value) {
@@ -143,14 +143,14 @@ void LinkedList::loadFromFile(const std::string& fileName) {
     fin.close();
 }
 
-void LinkedList::destroy() {
+void DualLinkedList::destroy() {
     while (head != nullptr) {
         removeFromHead();
     }
 }
 
-void runLinkedList(int argc, char* argv[]) {
-    LinkedList list;
+void runDualLinkedList(int argc, char* argv[]) {
+    DualLinkedList list;
     list.init();
 
     string fileName;
