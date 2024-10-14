@@ -2,15 +2,15 @@
 
 #include <string>
 
-struct ListNode {
+struct DualListNode {
     std::string data; 
-    ListNode* prev;
-    ListNode* next;
+    DualListNode* prev;
+    DualListNode* next;
 };
 
-struct LinkedList {
-    ListNode* head;
-    ListNode* tail;
+struct DualLinkedList {
+    DualListNode* head;
+    DualListNode* tail;
 
     void init();
     void addToHead(const std::string& value); 
@@ -26,4 +26,4 @@ struct LinkedList {
     void destroy();
 };
 
-void runLinkedList(int argc, char* argv[]);
+void runDualLinkedList(int argc, char* argv[]);
